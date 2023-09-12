@@ -9,12 +9,23 @@ import java.util.List;
 public class JpaMain {
 
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("start");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        tx.begin();
 
         try {
+            tx.begin();
+
+            Member member = new Member();
+            member.setUsername("John");
+
+            System.out.println("======================");
+            em.persist(member);
+            System.out.println("======================");
+            System.out.println("member.getId() = " + member.getId()); // identity 전략의 경우 commit 이전에 쿼리(insert)를 날려서, id 값을 가져옴
+            System.out.println("======================");
+            
+            tx.commit();
             /*
             Insert
             Member member = new Member();
@@ -59,6 +70,7 @@ public class JpaMain {
             4. dirty checking(변경 감지) - 스냅샷(db에서 읽어온 값)과 entity(변경된 값)을 비교하여 차이가 있으면 update
             */
 
+            /*
             // 비영속 상태
             Member member = new Member(3L, "C");
 
@@ -73,6 +85,7 @@ public class JpaMain {
             em.flush(); // 실제 사용은 거의 하지 않음(query 확인용) / jpql 쿼리 실행하는 경우도 자동 호출됨
 
             tx.commit(); // + em.flush();
+            */
         }catch (Exception e) {
             tx.rollback();
         } finally {

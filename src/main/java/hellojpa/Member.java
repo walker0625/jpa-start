@@ -1,41 +1,50 @@
 package hellojpa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Getter
+@Setter
+@NoArgsConstructor // jpa의 entity는 기본 생성자가 필수
 @Entity
-//@Table(name = "MEMBERS")
+@Table(name = "MEMBER") // DB 테이블명
 public class Member {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // db 종류에 따라 autoincrement를 위임
     private Long id;
-    //@Column(name = "username")
-    private String name;
 
-    // jpa의 entity는 기본 생성자가 필수
-    public Member() {}
+    private Integer age;
 
-    public Member(Long id, String name) {
+    @Column(name = "name") // DB 컬럼명
+    private String username;
+
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
+
+    @Lob
+    private String description;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModifiedDate;
+
+    // date
+    private LocalDate localDate;
+
+    // timestamp(datetime)
+    private LocalDateTime localDateTime;
+
+    public Member(Long id, String username) {
         this.id = id;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.username = username;
     }
 
 }
