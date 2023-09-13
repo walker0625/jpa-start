@@ -16,16 +16,33 @@ public class JpaMain {
         try {
             tx.begin();
 
+            Team team = new Team();
+            team.setTeamname("TeamA");
+            em.persist(team);
+
             Member member = new Member();
             member.setUsername("John");
+            member.setTeam(team);
+            em.persist(member);
+
+            // 아래 select query를 보고 싶은 경우
+            em.flush();
+            em.clear();
+
+            Member findedMember = em.find(Member.class, member.getId());
+            String teamname = findedMember.getTeam().getTeamname();
+            System.out.println("teamname = " + teamname);
+
+            tx.commit();
+            /*
 
             System.out.println("======================");
             em.persist(member);
             System.out.println("======================");
             System.out.println("member.getId() = " + member.getId()); // identity 전략의 경우 commit 이전에 쿼리(insert)를 날려서, id 값을 가져옴
             System.out.println("======================");
-            
-            tx.commit();
+
+            */
             /*
             Insert
             Member member = new Member();

@@ -17,12 +17,17 @@ import java.util.Date;
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // db 종류에 따라 autoincrement를 위임
+    @Column(name = "MEMBER_ID")
     private Long id;
 
     private Integer age;
 
     @Column(name = "name") // DB 컬럼명
     private String username;
+
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
