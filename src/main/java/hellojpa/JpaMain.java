@@ -22,17 +22,22 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("John");
-            member.setTeam(team);
+
+            // 연관관계 편의 메소드 사용
+            member.changeTeam(team); // 연관관계의 주인에 값을 넣어줘야 양방향 읽기가 가능(members도 읽기위해)
+            // 양방향으로 값 세팅을 하는 것이 안정적(1차 캐시만을 사용하는 경우가 생김)
             em.persist(member);
 
-            // 아래 select query를 보고 싶은 경우
-            em.flush();
-            em.clear();
+            // 둘을 주석 처리하면 1차 캐시만을 사용하게 됨(db 접근을 하지 않게 됨 - 1차 캐시가 남아있으므로)
+            // em.flush();
+            // em.clear();
 
-            Member findedMember = em.find(Member.class, member.getId());
-            String teamname = findedMember.getTeam().getTeamname();
-            System.out.println("teamname = " + teamname);
+            Team findedTeam = em.find(Team.class, team.getId()); // members가 없는 상태
 
+            for (Member teamMember : findedTeam.getMembers()) {
+                System.out.println("teamMember.getUsername() = " + teamMember.getUsername());
+            }
+            
             tx.commit();
             /*
 

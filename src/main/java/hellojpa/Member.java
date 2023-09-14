@@ -52,4 +52,10 @@ public class Member {
         this.username = username;
     }
 
+    // setTeam 보다는 좀 더 의미있는 이름으로 지정
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this); // 양방향 매핑 편의를 위해 세팅
+    }
+
 }
