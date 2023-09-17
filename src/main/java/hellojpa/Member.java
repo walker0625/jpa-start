@@ -25,6 +25,10 @@ public class Member {
     @Column(name = "name") // DB 컬럼명
     private String username;
 
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    Locker locker;
+
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;

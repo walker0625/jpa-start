@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "TEAM")
 public class Team {
 
     @Id
@@ -24,5 +25,12 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<Member> members = new ArrayList<>();
+
+    /* 연관관계 편의 메소드는 한쪽에만 설정(무한 루프 등의 문제 발생 가능)
+    public void addMembers(Member member) {
+        member.setTeam(this);
+        members.add(member);
+    }
+    */
 
 }
