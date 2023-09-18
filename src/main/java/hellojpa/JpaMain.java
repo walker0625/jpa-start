@@ -13,17 +13,10 @@ public class JpaMain {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
+        tx.begin();
+
         try {
-            tx.begin();
 
-            Locker locker = new Locker();
-            locker.setName("MemberA Locker");
-            em.persist(locker);
-
-            Member member = new Member();
-            member.setUsername("MemberA");
-            member.setLocker(locker);
-            em.persist(member);
 
             tx.commit();
             /*

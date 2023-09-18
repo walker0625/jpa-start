@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor // jpa의 entity는 기본 생성자가 필수
 @Entity
 @Table(name = "MEMBER") // DB 테이블명
-public class Member {
+public class Member extends BaseEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // db 종류에 따라 autoincrement를 위임
     @Column(name = "MEMBER_ID")
