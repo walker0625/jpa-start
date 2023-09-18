@@ -17,8 +17,36 @@ public class JpaMain {
 
         try {
 
+            Child child1 = new Child();
+            Child child2 = new Child();
+
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent);
 
             tx.commit();
+
+            /*
+            Team team = new Team();
+            team.setTeamname("team1");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team);
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            Member member1 = em.find(Member.class, member.getId());
+            System.out.println("member1.getUsername() = " + member1.getUsername());
+            System.out.println("member1.getTeam().getClass() = " + member1.getTeam().getClass()); // 지연로딩이라 proxy로 가져옴
+            System.out.println("member1.getTeam().getTeamname() = " + member1.getTeam().getTeamname()); // 실제 사용할 때 query와 함께 Entity 초기화
+            */
+
             /*
             Team team = new Team();
             team.setTeamname("TeamA");
