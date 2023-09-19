@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.*;
 
 @Getter
 @Setter
@@ -39,6 +39,30 @@ public class Member extends BaseEntity{
     @Lob
     private String description;
 
+    @Embedded
+    private Period period;
+
+    @Embedded
+    private Address address;
+
+    // 값타입 컬렉션에 수정을 하면 전체 data를 다 delete하고 수정으로 남는 값들만 새롭게 insert 처리(10000개 중 1개 지우면 insert 9999번 실행됨)
+    // 차라리 entity로 바꿔서 일대다 관계로 변경하는 것 추천
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
+
+    // 값타입 컬렉션을 entity로 승격하여 사용하는 것 추천(id가 생성되므로 관리가 용이)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addressEntityHistory = new ArrayList<>();
+
+    // 단순한 selectbox 값 처리의 경우 같은 경우에만 값타입 컬렉션 사용 추천
+    @ElementCollection
+    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    private List<Address> addressHistory = new ArrayList<>();
+
+    /*
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
@@ -50,6 +74,7 @@ public class Member extends BaseEntity{
 
     // timestamp(datetime)
     private LocalDateTime localDateTime;
+    */
 
     public Member(Long id, String username) {
         this.id = id;
