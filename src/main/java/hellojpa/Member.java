@@ -87,4 +87,20 @@ public class Member extends BaseEntity{
         team.getMembers().add(this); // 양방향 매핑 편의를 위해 세팅
     }
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", age=" + age +
+                ", username='" + username + '\'' +
+                ", locker=" + locker +
+                ", roleType=" + roleType +
+                ", description='" + description + '\'' +
+                ", period=" + period +
+                ", address=" + address +
+                ", favoriteFoods=" + favoriteFoods +
+                ", addressEntityHistory=" + addressEntityHistory +
+                ", addressHistory=" + addressHistory +
+                '}';
+    }
 }

@@ -17,8 +17,19 @@ public class JpaMain {
 
         try {
 
-            tx.commit();
+            Member member = new Member();
+            member.setUsername("memberA");
 
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            List<Member> selectMFromMemberM = em.createQuery("select m from Member m", Member.class).getResultList();
+            
+            selectMFromMemberM.forEach(m -> System.out.println("m = " + m.getUsername()));
+
+            tx.commit();
             /*
             Team team = new Team();
             team.setTeamname("team1");
