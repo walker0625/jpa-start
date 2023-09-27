@@ -25,6 +25,9 @@ public class Member extends BaseEntity{
     @Column(name = "name") // DB 컬럼명
     private String username;
 
+    @Enumerated(EnumType.STRING)
+    private MemberType memberType;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOCKER_ID")
     Locker locker;

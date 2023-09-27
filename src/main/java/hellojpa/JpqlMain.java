@@ -20,6 +20,7 @@ public class JpqlMain {
         member.setUsername("member1");
         member.setAge(11);
         member.setTeam(team);
+        member.setMemberType(MemberType.ADMIN);
         em.persist(member);
 
         em.flush();
@@ -59,9 +60,28 @@ public class JpqlMain {
         System.out.println("ml.size() = " + ml.size());
         */
 
-        String query = "SELECT m, t FROM Member m INNER JOIN m.team t ON t.teamname = teamB";
-        List<Member> tl = em.createQuery(query, Member.class).getResultList();
+        /* 조인
+        String query = "SELECT m FROM Member m INNER JOIN m.team t WHERE t.teamname = :teamname";
+        List<Member> tl = em.createQuery(query, Member.class)
+                            .setParameter("teamname", "teamA")
+                            .getResultList();
         System.out.println("tl = " + tl.get(0).getTeam().getTeamname());
+
+        String query = "SELECT m FROM Member m LEFT JOIN m.team ON t.name = teamA";
+        List<Member> ml = em.createQuery(query, Member.class).getResultList();
+         */
+
+        /* Enum 활용 조건절
+        String query = "SELECT m FROM Member m WHERE m.memberType = :memberType";
+        List<Member> ml = em.createQuery(query, Member.class)
+                            .setParameter("memberType", MemberType.ADMIN)
+                            .getResultList();
+        System.out.println("ml.get(0).getUsername() = " + ml.get(0).getUsername());
+         */
+
+        String query = "SELECT" +
+                "CASE WHEN m.age <= " +
+                "FROM Member m";
 
         tx.commit();
     }
