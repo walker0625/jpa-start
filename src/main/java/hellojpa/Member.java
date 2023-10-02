@@ -14,6 +14,10 @@ import java.util.*;
 @NoArgsConstructor // jpa의 entity는 기본 생성자가 필수
 @Entity
 @Table(name = "MEMBER") // DB 테이블명
+@NamedQuery(
+        name = "Member.findByUsername",
+        query = "SELECT m FROM Member m WHERE m.username = :username"
+)
 public class Member extends BaseEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // db 종류에 따라 autoincrement를 위임
